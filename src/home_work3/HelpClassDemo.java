@@ -4,8 +4,5 @@ public class HelpClassDemo {
     public static void main(String[] args) {
      Help help = new Help();
      help.helpOn();
-
-//   HelpSuper helpSuper = new HelpSuper();
-//   helpSuper.helpOn();
     }
 }
