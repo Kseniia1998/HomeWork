@@ -13,7 +13,7 @@ public class Schedule {
     private Date fitnessTimeFrom;
     private Date fitnessTimeTo;
 
-    public Schedule(String type, String fitnessTimeFrom, String fitnessTimeTo) {
+    public Schedule(String type, String fitnessTimeFrom, String fitnessTimeTo) throws Exception {
         this.type = type;
         this.setWorkingTimeTo("22:00");
         this.setWorkingTimeFrom("08:00");
@@ -25,10 +25,10 @@ public class Schedule {
     public String toString() {
         return "Schedule{" +
                 ", type='" + type + '\'' +
-                ", workingTimeFrom=" + workingTimeFrom +
-                ", workingTimeTo=" + workingTimeTo +
-                ", fitnessTimeFrom=" + fitnessTimeFrom +
-                ", fitnessTimeTo=" + fitnessTimeTo +
+                ", workingTimeFrom=" + getWorkingTimeFrom() +
+                ", workingTimeTo=" + getWorkingTimeTo() +
+                ", fitnessTimeFrom=" + getFitnessTimeFrom() +
+                ", fitnessTimeTo=" + getFitnessTimeTo() +
                 '}';
     }
 
@@ -40,8 +40,8 @@ public class Schedule {
         this.type = type;
     }
 
-    public Date getWorkingTimeFrom() {
-        return workingTimeFrom;
+    public String getWorkingTimeFrom() {
+        return formatter.format(workingTimeFrom);
     }
 
     public void setWorkingTimeFrom(String workingTimeFrom) {
@@ -65,27 +65,27 @@ public class Schedule {
         }
     }
 
-    public Date getFitnessTimeFrom() {
-        return fitnessTimeFrom;
+    public String getFitnessTimeFrom() {
+        return formatter.format(fitnessTimeFrom);
     }
 
-    public void setFitnessTimeFrom(String fitnessTimeFrom) {
-        try {
-            this.fitnessTimeFrom = formatter.parse(fitnessTimeFrom);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+    public void setFitnessTimeFrom(String fitnessTimeFrom) throws Exception {
+            Date time = formatter.parse(fitnessTimeFrom);
+            if (time.compareTo(this.workingTimeFrom) < 0) {
+                throw new Exception("Время начала тренеровки " + fitnessTimeFrom + " не может быть меньше, чем время открытия фитнес клуба " + this.getWorkingTimeFrom());
+            }
+            this.fitnessTimeFrom = time;
     }
 
-    public Date getFitnessTimeTo() {
-        return fitnessTimeTo;
+    public String getFitnessTimeTo() {
+        return formatter.format(fitnessTimeTo);
     }
 
     public void setFitnessTimeTo(String fitnessTimeTo) {
         try {
             Date time = formatter.parse(fitnessTimeTo);
             if (time.compareTo(this.workingTimeTo) > 0) {
-                throw new Exception("Время тренеровки " + fitnessTimeTo + " не может быть больше, чем время закрытия фитнес клуба " + this.getWorkingTimeTo());
+                throw new Exception("Время конца тренеровки " + fitnessTimeTo + " не может быть больше, чем время закрытия фитнес клуба " + this.getWorkingTimeTo());
             }
             this.fitnessTimeTo = time;
         } catch (Exception exception) {

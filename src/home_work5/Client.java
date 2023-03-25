@@ -2,6 +2,7 @@ package home_work5;
 
 public class Client {
 
+    private Instructor clientInstructor;
     private String firstName;
     private String lastName;
     private int age;
@@ -9,16 +10,42 @@ public class Client {
     private Abonement abonement;
     private Schedule schedule;
 
+    public Client(
+            String firstName,
+            String lastName,
+            int age,
+            String gender,
+            String scheduleType,
+            String fitnessTimeFrom,
+            String fitnessTimeTo,
+            Abonement abonement
+    ) throws Exception {
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setAge(age);
+        this.setGender(gender);
+        this.setSchedule(new Schedule(scheduleType, fitnessTimeFrom, fitnessTimeTo));
+        this.abonement = abonement;
+    }
 
-
-   public Client(String firstName, String lastName, int age, String gender, String scheduleType, String fitnessTimeFrom, String fitnessTimeTo){
-       this.setFirstName(firstName);
-       this.setLastName(lastName);
-       this.setAge(age);
-       this.setGender(gender);
-       this.setSchedule(new Schedule(scheduleType, fitnessTimeFrom, fitnessTimeTo));
-
-
+    public Client(
+            String firstName,
+            String lastName,
+            int age,
+            String gender,
+            String scheduleType,
+            String fitnessTimeFrom,
+            String fitnessTimeTo,
+            Instructor instructor,
+            Abonement abonement
+    ) throws Exception {
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setAge(age);
+        this.setGender(gender);
+        this.setSchedule(new Schedule(scheduleType, fitnessTimeFrom, fitnessTimeTo));
+        this.clientInstructor = instructor;
+        this.abonement = abonement;
     }
 
     @Override
@@ -29,6 +56,7 @@ public class Client {
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", abonement=" + abonement +
+                ", instructor=" + clientInstructor +
                 ", schedule=" + schedule;
     }
 
@@ -75,5 +103,11 @@ public class Client {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
-
+    public void increaseVisitNumberByOne(){
+        if(!this.abonement.isValid()){
+            System.out.println(this.firstName+", ваш обонемент просрочен или превышен лемит посещений. Обновите обонемент");
+            return;
+        }
+        abonement.setVisitNumber(abonement.getVisitNumber()+1);
+    }
 }
