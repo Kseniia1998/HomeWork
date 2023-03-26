@@ -99,6 +99,7 @@ public class FitnessClub {
                 instructor,
                 abonement
         );
+        instructor.addClient(client);
         addNewClient(client);
         return client;
     }

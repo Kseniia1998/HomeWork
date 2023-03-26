@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractInstructor implements InstructorInterface {
-    private String type;
+    private final String type;
     private String firstName;
     private String lastName;
-    private int totalSlots;
+    private final int totalSlots;
     private final List<Client> clientList;
 
     public AbstractInstructor(String type, String firstName, String lastName) {
+        this.type = type;
         this.firstName = firstName;
         this.lastName = lastName;
         this.clientList = new ArrayList<>();
@@ -45,7 +46,7 @@ public abstract class AbstractInstructor implements InstructorInterface {
     }
 
     public boolean haveFreeSlots(){
-        return clientList.size() > totalSlots;
+        return clientList.size() < totalSlots;
     }
 
     @Override
@@ -54,8 +55,10 @@ public abstract class AbstractInstructor implements InstructorInterface {
                 "type='" + type + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", totalSlots=" + totalSlots +
-                ", clientList=" + clientList +
                 '}';
+    }
+
+    public void printClientList(){
+        System.out.println(clientList);
     }
 }
